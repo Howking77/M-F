@@ -70,7 +70,7 @@ function getURLParam(name) {
 function showDedicationText() { //seguidores
   let text = getURLParam('text');
   if (!text) {
-    text = `Aquel 31 de octubre quedó grabado como un recuerdo imposible de borrar.\n\nEra su primera cita, llena de nervios, ilusión y esa timidez dulce que hacía latir el corazón más fuerte.\n\nPasearon tomados de la mano entre disfraces y luces de Halloween, fueron al cine y, a pesar de la torpeza de los asientos separados, encontraron la forma de estar cerca.\n\nEntre miradas, abrazos y su primer beso, el mundo pareció detenerse por un instante.\n\nTodo fue simple, imperfecto y, aun así, profundamente perfecto.`;  } else {
+    text = `Aquel 31 de octubre quedó grabado como un recuerdo imposible de borrar.\n\nEra su primera cita, llena de nervios, ilusión y esa timidez dulce que hacía latir el corazón más fuerte.\n\nPasearon tomados de la mano entre disfraces y luces de Halloween, fueron al cine y, a pesar de la torpeza de los asientos separados, encontraron la forma de estar cerca.\n\nEntre miradas, abrazos y besos, el mundo pareció detenerse por un instante.\n\nTodo fue simple, imperfecto y, aun así, profundamente perfecto.`;  } else {
     text = decodeURIComponent(text).replace(/\\n/g, '\n');
   }
   const container = document.getElementById('dedication-text');
@@ -140,6 +140,39 @@ function startFloatingObjects() {
   }
   spawn();
 }
+
+document.addEventListener('click', function(e) {
+  const container = document.getElementById('floating-objects');
+
+  for (let i = 0; i < 12; i++) {
+    let el = document.createElement('div');
+    el.className = 'floating-petal';
+
+    // Posición inicial en el punto del click
+    el.style.position = 'fixed';
+    el.style.left = `${e.clientX}px`;
+    el.style.top = `${e.clientY}px`;
+    el.style.pointerEvents = 'none';
+
+    container.appendChild(el);
+
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 100 + Math.random() * 100;
+
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance;
+
+    setTimeout(() => {
+      el.style.transition = 'transform 1s ease-out, opacity 1s';
+      el.style.transform = `translate(${x}px, ${y}px) scale(${0.5 + Math.random()}) rotate(${Math.random() * 360}deg)`;
+      el.style.opacity = 0;
+    }, 10);
+
+    setTimeout(() => {
+      el.remove();
+    }, 1000);
+  }
+});
 
 // Cuenta regresiva o fecha especial
 function showCountdown() {
